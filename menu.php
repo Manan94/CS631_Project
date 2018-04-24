@@ -15,7 +15,12 @@ h1, h2 {
 	text-align: center;
 	color : blue;
 }
-
+.menuBtn {
+	width:250px;
+	height:30px;
+	font-weight:bold;
+	font-size:15px;
+}
 input {
 	color : blue;
 }
@@ -26,26 +31,26 @@ input {
 </head>
 <body>
 	<h1>Newark-IT - Online Computer Store</h1>
-	<h2>Welcome <?php echo $_SESSION["user"];  ?></h2>
+	<h2>Welcome <?php echo $_SESSION["CName"];  ?></h2>
 	<div style="text-align: center;">
 		<form  action="shopping.php" method="post">
-			<input type="submit" value="Start Shopping"/><br><br>
+			<input class="menuBtn" type="submit" value="Start Shopping"/><br><br>
 		</form>
 		
 		<form  action="cart.php" method="post">
-			<input type="submit" value="Show My Cart"/><br><br>
+			<input class="menuBtn" type="submit" value="Show My Cart"/><br><br>
 		</form>
 		
 		<form  action="transaction.php" method="post">
-			<input type="submit" value="Show My Transactions"/><br><br>
+			<input class="menuBtn" type="submit" value="Show My Transactions"/><br><br>
 		</form>
 		
 		<form  action="newShippingAddress.php" method="post">
-			<input type="submit" value="Add new Shipping Address"/><br><br>
+			<input class="menuBtn" type="submit" value="Add new Shipping Address"/><br><br>
 		</form>
 		
 		<form  action="newCreditCard.php" method="post">
-			<input type="submit" value="Add new Credit Card"/><br><br>
+			<input class="menuBtn" type="submit" value="Add new Credit Card"/><br><br>
 		</form>
 	</div>
 	

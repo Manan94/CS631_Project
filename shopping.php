@@ -1,4 +1,4 @@
-s<?php
+<?php
 session_start();
 ?>
 <html>
@@ -20,6 +20,12 @@ h1, h2 {
 	color : blue;
 }
 
+.menuBtn {
+	width:250px;
+	height:30px;
+	font-weight:bold;
+	font-size:15px;
+}
 input {
 	color : blue;
 }
@@ -30,44 +36,28 @@ input {
 </head>
 <body>
 	<h1>Newark-IT - Online Computer Store</h1>
-	<h2>Welcome <?php echo $_SESSION["user"];  ?></h2>
+	<h2>Welcome <?php echo $_SESSION["CName"];  ?></h2>
 	<div style="text-align: center;">
 		<form  action="menu.php" method="post">
-			<input type="submit" value="Back to Main Menu"/><br><br>
+			<input class="menuBtn" type="submit" value="Back to Main Menu"/><br><br>
+		</form>
+		<form  action="shopDesktop.php" method="post">
+			<input class="menuBtn" type="submit" value="Desktop Computers"/><br><br>
+		</form>
+		<form  action="shopLaptop.php" method="post">
+			<input class="menuBtn" type="submit" value="Laptop Computers"/><br><br>
+		</form>
+		<form  action="shopPrinter.php" method="post">
+			<input class="menuBtn" type="submit" value="Printers"/><br><br>
+		</form>
+		<form  action="shopAccessories.php" method="post">
+			<input class="menuBtn" type="submit" value="Accessories"/><br><br>
 		</form>
 	</div>
-	
-	
-	<table style="width:100%">
-	  <tr>
-		<th>Firstname</th>
-		<th>Lastname</th> 
-		<th>Age</th>
-		<th>Buy</th>
-	  </tr>
-	  <tr>
-		<td>Jill</td>
-		<td>Smith</td> 
-		<td>50</td>
-		<td><input type="Button" value="buy" onclick="Buy('<?php echo $username ?>')"/></td>
-	  </tr>
-	  <tr>
-		<td>Eve</td>
-		<td>Jackson</td> 
-		<td>94</td>
-		<td><input type="Button" value="buy" onclick="Buy(2)"/></td>
-	  </tr>
-	</table>
-	
-	
 	<script type="text/javascript">
 		$(document).ready(function() {
 			
 		});
-	function Buy(x) {
-		alert(x);
-	}
-	
 	</script>
 </body>
 </html>

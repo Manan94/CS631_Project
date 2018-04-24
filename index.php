@@ -15,6 +15,12 @@
 	input {
 		color : blue;
 	}
+	.menuBtn {
+		width:250px;
+		height:30px;
+		font-weight:bold;
+		font-size:15px;
+	}
 </style>
 </head>
 <body>
@@ -23,7 +29,7 @@
 	<div style="text-align:center">
 		<form action="login.php" method="post">
 			E-mail: <input type="text" name="email"><br><br>
-			<input type="submit" value="Login">
+			<input class="menuBtn" type="submit" value="Login">
 		</form>
 	</div>
 	
