@@ -78,7 +78,9 @@ input {
 
 		if ($result->num_rows > 0) {
 			while($row = $result->fetch_assoc()) {
-				echo "<tr><td>".$row["PName"]."</td><td>$".$row["PPrice"]."</td><td>".$row["Description"]."</td><td>".$row["CPUType"]."</td><td><input type='submit' value='Add to Cart'/></td></tr>";
+				echo "<tr><td>".$row["PName"]."</td><td>$".$row["PPrice"]."</td><td>".$row["Description"]."</td><td>".$row["CPUType"]."</td><td><form action='addToCart.php' method='post'> <input type='hidden' name='PID' value='".$row["PID"]."'/><input type='submit' value='Add to Cart'/></form></td></tr>";
+			//"<form action='addToCart.php' method='post'> <input type='hidden' name='PID' value='".$row["PID"]."'/><input type='hidden' name='CID' value='".$_SESSION["CID"]."'/>".
+			//"</form>"
 			}
 			echo "</table>";
 		} else {
