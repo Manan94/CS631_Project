@@ -68,21 +68,37 @@ $sql = "SELECT * from appears_in where CartID = '".$cartID."' and PID = '".$prod
 	return false;
 }
 
+function increaseProductCount($conn, $cartID, $productID) {
+	$sql = "update appears_in set Quantity = Quantity + 1 where CartID = '".$cartID."' and PID = '".$productID."';";
+	$result = $conn->query($sql);
+	if (!$result) {
+		trigger_error('Invalid query: ' . $conn->error);
+	}
+}
+
+function insertProductInCart($conn, $cartID, $productID) {
+	//TODO get price sold based on customer membership
+	$sql = "INSERT INTO appears_in (CartID, PID, Quantity, PriceSold) VALUES (".$cartID.", ".$productID.", '1', '220');";
+	$result = $conn->query($sql);
+	if (!$result) {
+		trigger_error('Invalid query: ' . $conn->error);
+	}
+}
 /*********************************************/
 
 $cartID = getCartID($conn, $customerID, $productID);
+
 if($cartID == null) {
 	createNewCart($conn, $customerID);
 	$cartID = getCartID($conn, $customerID, $productID);
 }
 
 if(isProductAlreadyInTheCart($conn, $cartID, $productID)){
-	// increase the count
+	increaseProductCount($conn, $cartID, $productID);
 } else {
-	//insert in appears in
+	insertProductInCart($conn, $cartID, $productID);
 }
 
-echo $cartID;
 
 
 

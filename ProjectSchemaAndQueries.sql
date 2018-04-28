@@ -1,6 +1,3 @@
---****************** ****************** ****************** ****************** ************
--- ****************** ****************** DDL SCRIPTS ****************** ****************** 
-
 Create table CUSTOMER (
 CID INT (10) PRIMARY KEY AUTO_INCREMENT,
 FName VARCHAR (30) NOT NULL,
@@ -98,10 +95,6 @@ PrinterType VARCHAR(20) NOT NULL,
 Resolution VARCHAR(20) NOT NULL,
 FOREIGN KEY (PID) REFERENCES PRODUCT(PID));
 
--- ****************** ****************** ****************** ****************** **
--- ****************** ****************** DML ************************************  
-
--- ******************  CUSTOMER ****************** 
 INSERT INTO `customer` (`CID`, `FName`, `LName`, `Email`, `Address`, `Phone`, `Status`) VALUES 
 (NULL, 'Junaid', 'Malik', 'jm794@njit.edu', 'Newark, NJ', '1111111111', 'R');
 
@@ -115,11 +108,8 @@ INSERT INTO `customer` (`CID`, `FName`, `LName`, `Email`, `Address`, `Phone`, `S
 (NULL, 'John', 'Smith', 'js@njit.edu', 'New York, NY', '1111111111', 'P');
 
 
--- ******************  SILVER_AND_ABOVE ****************** 
 INSERT INTO `silver_and_above` (`CID`, `CreditLine`) VALUES ('2', '10'), ('3', '15'), ('4', '20');
 
-
--- ******************  CREDIT_CARD ****************** 
 INSERT INTO `credit_card` (`CCNumber`, `SecNumber`, `OwnerName`, `CCType`, `CCAddress`, `ExpDate`) VALUES 
 ('1234123412341234', '123', 'Junaid Malik', 'Visa', 'Newark, NJ', '2018-07-12');
 
@@ -133,7 +123,6 @@ INSERT INTO `credit_card` (`CCNumber`, `SecNumber`, `OwnerName`, `CCType`, `CCAd
 ('3333333333333333', '333', 'Clark', 'Discover', 'Seattle, WA', '2018-03-10');
 
 
--- ******************  STORED_CARD ****************** 
 INSERT INTO `stored_card` (`CCNumber`, `CID`) VALUES ('1234123412341234', '1');
 
 INSERT INTO `stored_card` (`CCNumber`, `CID`) VALUES ('1111111111111111', '2');
@@ -141,7 +130,6 @@ INSERT INTO `stored_card` (`CCNumber`, `CID`) VALUES ('1111111111111111', '2');
 INSERT INTO `stored_card` (`CCNumber`, `CID`) VALUES ('2222222222222222', '3');
 
 
--- ******************  SHIPPING_ADDRESS ****************** 
 INSERT INTO `shipping_address` (`CID`, `SAName`, `RecepientName`, `Street`, `SNumber`, `City`, `Zip`, `State`, `Country`) VALUES 
 ('1', 'Home', 'Junaid', 'Groove', '1', 'Newark', '07102', 'NJ', 'USA');
 
@@ -151,8 +139,6 @@ INSERT INTO `shipping_address` (`CID`, `SAName`, `RecepientName`, `Street`, `SNu
 INSERT INTO `shipping_address` (`CID`, `SAName`, `RecepientName`, `Street`, `SNumber`, `City`, `Zip`, `State`, `Country`) VALUES 
 ('3', 'Apartment', 'Rahul', 'Pamela', '1', 'Wallingford', '06492', 'CT', 'USA');
 
--- ******************  PRODUCT ******************
--- DESKTOP COMPUTER
 INSERT INTO `product` (`PID`, `PType`, `PName`, `PPrice`, `Description`, `PQuantity`) VALUES 
 (NULL, 'D', 'Intel core i5', '800', 'Intel i5 computer 1st generation', '10');
 
@@ -168,7 +154,6 @@ INSERT INTO `product` (`PID`, `PType`, `PName`, `PPrice`, `Description`, `PQuant
 INSERT INTO `product` (`PID`, `PType`, `PName`, `PPrice`, `Description`, `PQuantity`) VALUES 
 (NULL, 'D', 'Pentium 2', '150', 'IBM 2nd Gen', '5');
 
--- Laptop
 INSERT INTO `product` (`PID`, `PType`, `PName`, `PPrice`, `Description`, `PQuantity`) VALUES 
 (NULL, 'L', 'HP Notebook', '1000', 'HP Notebook 2nd Gen', '20');
 
@@ -184,7 +169,6 @@ INSERT INTO `product` (`PID`, `PType`, `PName`, `PPrice`, `Description`, `PQuant
 INSERT INTO `product` (`PID`, `PType`, `PName`, `PPrice`, `Description`, `PQuantity`) VALUES 
 (NULL, 'L', 'Sony SmartBook', '700', 'Sony SmartBook i5 3rd Gen', '5');
 
---PRINTER
 INSERT INTO `product` (`PID`, `PType`, `PName`, `PPrice`, `Description`, `PQuantity`) VALUES 
 (NULL, 'P', 'Intel Smart Printer', '500', 'Smart Printer 20 colors', '5');
 
@@ -200,7 +184,6 @@ INSERT INTO `product` (`PID`, `PType`, `PName`, `PPrice`, `Description`, `PQuant
 INSERT INTO `product` (`PID`, `PType`, `PName`, `PPrice`, `Description`, `PQuantity`) VALUES 
 (NULL, 'P', 'BWPrinter', '150', 'Black and White Printer with Ink', '15');
 
--- OTHER ACCESSORIES
 INSERT INTO `product` (`PID`, `PType`, `PName`, `PPrice`, `Description`, `PQuantity`) VALUES 
 (NULL, 'A', 'Charger', '100', 'Laptop Charger', '10');
 
@@ -216,7 +199,6 @@ INSERT INTO `product` (`PID`, `PType`, `PName`, `PPrice`, `Description`, `PQuant
 INSERT INTO `product` (`PID`, `PType`, `PName`, `PPrice`, `Description`, `PQuantity`) VALUES 
 (NULL, 'A', 'Mouse', '75', 'Gaming Mouse', '15');
 
--- ******************  COMPUTER ******************
 INSERT INTO `computer` (`PID`, `CPUType`) VALUES ('1', 'i5');
 INSERT INTO `computer` (`PID`, `CPUType`) VALUES ('2', 'core2');
 INSERT INTO `computer` (`PID`, `CPUType`) VALUES ('3', 'i5');
@@ -229,14 +211,12 @@ INSERT INTO `computer` (`PID`, `CPUType`) VALUES ('8', 'i7');
 INSERT INTO `computer` (`PID`, `CPUType`) VALUES ('9', 'Core2');
 INSERT INTO `computer` (`PID`, `CPUType`) VALUES ('10', 'AMD');
 
--- ******************  LAPTOP ******************
 INSERT INTO `laptop` (`PID`, `BType`, `Weight`) VALUES ('6', '180', '2.0');
 INSERT INTO `laptop` (`PID`, `BType`, `Weight`) VALUES ('7', '140', '2.5');
 INSERT INTO `laptop` (`PID`, `BType`, `Weight`) VALUES ('8', '200', '3.0');
 INSERT INTO `laptop` (`PID`, `BType`, `Weight`) VALUES ('9', '100', '1.0');
 INSERT INTO `laptop` (`PID`, `BType`, `Weight`) VALUES ('10', '300', '5.0');
 
--- ******************  PRINTER ******************
 INSERT INTO `printer` (`PID`, `PrinterType`, `Resolution`) VALUES ('11', 'Inkjet', '1024x2048');
 INSERT INTO `printer` (`PID`, `PrinterType`, `Resolution`) VALUES ('12', 'LaserJet', '1024x1024');
 INSERT INTO `printer` (`PID`, `PrinterType`, `Resolution`) VALUES ('13', 'Plotter', '720x720');
