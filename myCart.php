@@ -38,8 +38,8 @@ input {
 	<h1>Newark-IT - Online Computer Store</h1>
 	<h2>Welcome <?php echo $_SESSION["CName"];  ?></h2>
 	<div style="text-align: center;">
-		<form  action="shopping.php" method="post">
-			<input class="menuBtn" type="submit" value="Back to Shopping Menu"/><br><br>
+		<form  action="menu.php" method="post">
+			<input class="menuBtn" type="submit" value="Back to Main Menu"/><br><br>
 		</form>
 	</div>
 	
@@ -48,9 +48,12 @@ input {
 	  <tr>
 		<th>Name</th>
 		<th>Description</th>
-		<th>CPU Type</th>
-		<th>Quantity</th>
 		<th>Price Sold</th>
+		<th>Quantity</th>
+		<th>Update Quantity</th>
+		<th>Delete</th>
+
+		
 	  </tr>
 	  
 	<?php
@@ -66,14 +69,12 @@ input {
 			die("Connection failed: " . $conn->connect_error);
 		} 
 
-		$sql = "SELECT P.PID, PName, PPrice, Description, CPUType from Product P,Computer C where PType='D' and P.PID = C.PID and PQuantity > 0";
+		$sql = "select P.PID, P.PName, A.PriceSold, A.Quantity, P.Description from product P, cart C, appears_in A where P.PID = A.PID AND C.CartID = A.CartID and C.TStatus is NULL and C.CID = '".$_SESSION["CID"]."';";
 		$result = $conn->query($sql);
 
 		if ($result->num_rows > 0) {
 			while($row = $result->fetch_assoc()) {
-				echo "<tr><td>".$row["PName"]."</td><td>$".$row["PPrice"]."</td><td>".$row["Description"]."</td><td>".$row["CPUType"]."</td><td><form action='addToCart.php' method='post'> <input type='hidden' name='PID' value='".$row["PID"]."'/><input type='submit' value='Add to Cart'/></form></td></tr>";
-			//"<form action='addToCart.php' method='post'> <input type='hidden' name='PID' value='".$row["PID"]."'/><input type='hidden' name='CID' value='".$_SESSION["CID"]."'/>".
-			//"</form>"
+				echo "<tr><td>".$row["PName"]."</td><td>".$row["Description"]."</td><td>$".$row["PriceSold"]."</td><td>".$row["Quantity"]."</td><td><form action='addToCart.php' method='post'> <input type='hidden' name='PID' value='".$row["PID"]."'/><input type='submit' value=' + '/>&nbsp<input type='submit' value=' - '/></form></td></td><td><form action='addToCart.php' method='post'> <input type='hidden' name='PID' value='".$row["PID"]."'/><input type='submit' value=' x '/></form></td></tr>";
 			}
 			echo "</table>";
 		} else {

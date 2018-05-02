@@ -37,7 +37,7 @@ input {
 			<input class="menuBtn" type="submit" value="Start Shopping"/><br><br>
 		</form>
 		
-		<form  action="cart.php" method="post">
+		<form  action="myCart.php" method="post">
 			<input class="menuBtn" type="submit" value="Show My Cart"/><br><br>
 		</form>
 		

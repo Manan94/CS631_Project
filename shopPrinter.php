@@ -88,9 +88,9 @@ p {
 		if ($result->num_rows > 0) {
 			while($row = $result->fetch_assoc()) {
 				if($row['OfferPrice'] == null) {
-					echo "<tr><td>".$row["PName"]."</td><td>$".$row["PPrice"]."</td><td>N/A</td><td>".$row["Description"]."</td><td>".$row["PrinterType"]."</td><td>".$row["Resolution"]."</td><td><form action='addToCart.php' method='post'> <input type='hidden' name='PID' value='".$row["PID"]."'/><input type='submit' value='Add to Cart'/></form></td></tr>";
+					echo "<tr><td>".$row["PName"]."</td><td>$".$row["PPrice"]."</td><td>N/A</td><td>".$row["Description"]."</td><td>".$row["PrinterType"]."</td><td>".$row["Resolution"]."</td><td><form action='addToCart.php' method='post'> <input type='hidden' name='PID' value='".$row["PID"]."'/><input type='submit' value='Add to Cart' onclick='showMsg(".'"'.$row["PName"].'"'.");'/></form></td></tr>";
 				}else {
-					echo "<tr><td>".$row["PName"]."</td><td>$".$row["PPrice"]."</td><td>$".$row["OfferPrice"]."</td><td>".$row["Description"]."</td><td>".$row["PrinterType"]."</td><td>".$row["Resolution"]."</td><td><form action='addToCart.php' method='post'> <input type='hidden' name='PID' value='".$row["PID"]."'/><input type='submit' value='Add to Cart'/></form></td></tr>";
+					echo "<tr><td>".$row["PName"]."</td><td>$".$row["PPrice"]."</td><td>$".$row["OfferPrice"]."</td><td>".$row["Description"]."</td><td>".$row["PrinterType"]."</td><td>".$row["Resolution"]."</td><td><form action='addToCart.php' method='post'> <input type='hidden' name='PID' value='".$row["PID"]."'/><input type='submit' value='Add to Cart' onclick='showMsg(".'"'.$row["PName"].'"'.");'/></form></td></tr>";
 				}
 			}
 			echo "</table>";
@@ -107,6 +107,9 @@ p {
 		$(document).ready(function() {
 			
 		});
+		function showMsg(pname) {
+			alert(pname + " added Successfully in the cart");
+		}
 	</script>
 </body>
 </html>
