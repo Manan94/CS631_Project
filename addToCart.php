@@ -76,9 +76,48 @@ function increaseProductCount($conn, $cartID, $productID) {
 	}
 }
 
+function getProductPrice($conn, $PID) {
+	$status = $_SESSION["Status"];
+	$Price = "";
+	$sql = "";
+	if($status == "G" || $status == "P") {
+		$sql = "SELECT OfferPrice from offer_product where PID = ".$PID.";";
+		$result = $conn->query($sql);
+		if (!$result) {
+			trigger_error('Invalid query: ' . $conn->error);
+		} else {
+			if ($result->num_rows > 0) {
+				while($row = $result->fetch_assoc()) {
+					$Price = $row['OfferPrice'];
+					break;
+				}
+			} else {
+				$Price = "";
+			}
+		}
+	} 
+	if($Price == ""){
+		$sql = "SELECT PPrice from Product where PID = ".$PID.";";
+		$result = $conn->query($sql);
+		if (!$result) {
+			trigger_error('Invalid query: ' . $conn->error);
+		} else {
+			if ($result->num_rows > 0) {
+				while($row = $result->fetch_assoc()) {
+					$Price = $row['PPrice'];
+				}
+			} else {
+				return null;
+			}
+		}
+	}
+	return $Price;
+	
+}
+
 function insertProductInCart($conn, $cartID, $productID) {
-	//TODO get price sold based on customer membership
-	$sql = "INSERT INTO appears_in (CartID, PID, Quantity, PriceSold) VALUES (".$cartID.", ".$productID.", '1', '220');";
+	$Price = getProductPrice($conn, $productID);
+	$sql = "INSERT INTO appears_in (CartID, PID, Quantity, PriceSold) VALUES (".$cartID.", ".$productID.", '1', ".$Price.");";
 	$result = $conn->query($sql);
 	if (!$result) {
 		trigger_error('Invalid query: ' . $conn->error);
@@ -98,9 +137,6 @@ if(isProductAlreadyInTheCart($conn, $cartID, $productID)){
 } else {
 	insertProductInCart($conn, $cartID, $productID);
 }
-
-
-
-
 $conn->close();
+header('Location: ' . $_SERVER['HTTP_REFERER']);
 ?>

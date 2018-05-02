@@ -29,6 +29,9 @@ h1, h2, h3 {
 input {
 	color : blue;
 }
+p {
+	color : red;
+}
 </style>
 
 
@@ -37,6 +40,17 @@ input {
 <body>
 	<h1>Newark-IT - Online Computer Store</h1>
 	<h2>Welcome <?php echo $_SESSION["CName"];  ?></h2>
+	<h3>Status 
+	<?php if($_SESSION["Status"]=="P")
+			echo "Platinum";
+		  else if ($_SESSION["Status"]=="G")
+			echo "Gold";
+		  else if ($_SESSION["Status"]=="S")
+			echo "Silver";
+		  else if ($_SESSION["Status"]=="R")
+			echo "Regular";
+	?>
+	</h3>
 	<div style="text-align: center;">
 		<form  action="shopping.php" method="post">
 			<input class="menuBtn" type="submit" value="Back to Shopping Menu"/><br><br>
@@ -48,6 +62,7 @@ input {
 	  <tr>
 		<th>Name</th>
 		<th>Price</th> 
+		<th>Offer Price</th>
 		<th>Description</th>
 		<th>CPU Type</th>
 		<th>Battery Timing</th>
@@ -68,17 +83,22 @@ input {
 			die("Connection failed: " . $conn->connect_error);
 		} 
 
-		$sql = "SELECT P.PID, PName, PPrice, Description, CPUType, BType, Weight from Product P,Computer C, Laptop L where PType='L' and P.PID = C.PID and C.PID = L.PID and PQuantity > 0";
+		$sql = "SELECT P.PID, PName, PPrice, OfferPrice, Description, CPUType, BType, Weight from (Product P,Computer C, Laptop L) LEFT JOIN offer_product O ON P.PID = O.PID where PType='L' and P.PID = C.PID and C.PID = L.PID and PQuantity > 0";
 		$result = $conn->query($sql);
 
 		if ($result->num_rows > 0) {
 			while($row = $result->fetch_assoc()) {
-				echo "<tr><td>".$row["PName"]."</td><td>$".$row["PPrice"]."</td><td>".$row["Description"]."</td><td>".$row["CPUType"]."</td><td>".$row["BType"]." min</td><td>".$row["Weight"]."lb</td><td><input type='submit' value='Add to Cart'/></td></tr>";
+				if($row['OfferPrice'] == null) {
+					echo "<tr><td>".$row["PName"]."</td><td>$".$row["PPrice"]."</td><td>N/A</td><td>".$row["Description"]."</td><td>".$row["CPUType"]."</td><td>".$row["BType"]." min</td><td>".$row["Weight"]."lb</td><td><form action='addToCart.php' method='post'> <input type='hidden' name='PID' value='".$row["PID"]."'/><input type='submit' value='Add to Cart'/></form></td></tr>";
+				} else {
+					echo "<tr><td>".$row["PName"]."</td><td>$".$row["PPrice"]."</td><td>$".$row["OfferPrice"]."</td><td>".$row["Description"]."</td><td>".$row["CPUType"]."</td><td>".$row["BType"]." min</td><td>".$row["Weight"]."lb</td><td><form action='addToCart.php' method='post'> <input type='hidden' name='PID' value='".$row["PID"]."'/><input type='submit' value='Add to Cart'/></form></td></tr>";
+				}
 			}
 			echo "</table>";
 		} else {
 			echo "No Result Found";
 		}
+		echo "<br><p>*Offer Price is only applicable to Gold and Platinum customers</p>";
 		$conn->close();
 	?>
 	</table>

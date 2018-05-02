@@ -222,3 +222,16 @@ INSERT INTO `printer` (`PID`, `PrinterType`, `Resolution`) VALUES ('12', 'LaserJ
 INSERT INTO `printer` (`PID`, `PrinterType`, `Resolution`) VALUES ('13', 'Plotter', '720x720');
 INSERT INTO `printer` (`PID`, `PrinterType`, `Resolution`) VALUES ('14', '3D', '2048x2048');
 INSERT INTO `printer` (`PID`, `PrinterType`, `Resolution`) VALUES ('15', 'Thermal', '1024x720');
+
+
+
+INSERT INTO `offer_product` (`PID`, `OfferPrice`) VALUES ('3', '650');
+
+INSERT INTO `offer_product` (`PID`, `OfferPrice`) VALUES ('4', '300');
+
+INSERT INTO `offer_product` (`PID`, `OfferPrice`) VALUES ('5', '100');
+
+INSERT INTO `offer_product` (`PID`, `OfferPrice`) VALUES ('6', '950');
+
+INSERT INTO `offer_product` (`PID`, `OfferPrice`) VALUES ('7', '1000');
+

@@ -27,6 +27,7 @@ else {
 		session_start();
 		$row = $result->fetch_assoc();
 		$_SESSION["CID"] = $row["CID"];
+		$_SESSION["Status"] = $row["Status"];
 		$_SESSION["CName"] = $row["FName"]." ".$row["LName"];
 		$conn->close();
 		header('Location: menu.php');
