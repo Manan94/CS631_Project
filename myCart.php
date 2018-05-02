@@ -69,14 +69,29 @@ input {
 			die("Connection failed: " . $conn->connect_error);
 		} 
 
-		$sql = "select P.PID, P.PName, A.PriceSold, A.Quantity, P.Description from product P, cart C, appears_in A where P.PID = A.PID AND C.CartID = A.CartID and C.TStatus is NULL and C.CID = '".$_SESSION["CID"]."';";
+		$sql = "select P.PID, P.PName, A.PriceSold, A.Quantity, P.PQuantity, P.Description, C.CartID from product P, cart C, appears_in A where P.PID = A.PID AND C.CartID = A.CartID and C.TStatus is NULL and C.CID = '".$_SESSION["CID"]."';";
 		$result = $conn->query($sql);
 
 		if ($result->num_rows > 0) {
+			$totalPrice = 0;
 			while($row = $result->fetch_assoc()) {
-				echo "<tr><td>".$row["PName"]."</td><td>".$row["Description"]."</td><td>$".$row["PriceSold"]."</td><td>".$row["Quantity"]."</td><td><form action='addToCart.php' method='post'> <input type='hidden' name='PID' value='".$row["PID"]."'/><input type='submit' value=' + '/>&nbsp<input type='submit' value=' - '/></form></td></td><td><form action='addToCart.php' method='post'> <input type='hidden' name='PID' value='".$row["PID"]."'/><input type='submit' value=' x '/></form></td></tr>";
+				$totalPrice += ($row["PriceSold"] * $row['Quantity']);
+				if($row["PQuantity"] > 0 && $row["Quantity"] > 1) {
+					echo "<tr><td>".$row["PName"]."</td><td>".$row["Description"]."</td><td>$".$row["PriceSold"]."</td><td>".$row["Quantity"]."</td><td><form action='addToCart.php' method='post'> <input type='hidden' name='PID' value='".$row["PID"]."'/><input type='submit' value=' + '/></form><form action='decreaseQuantityFromCart.php' method='post'><input type='hidden' name='PID' value='".$row["PID"]."'/><input type='hidden' name='CartID' value='".$row["CartID"]."'/><input type='submit' value=' - '/></form></td></td><td><form action='deleteFromCart.php' method='post'> <input type='hidden' name='PID' value='".$row["PID"]."'/><input type='hidden' name='CartID' value='".$row["CartID"]."'/><input type='submit' value=' x '/></form></td></tr>";
+				} else if($row["PQuantity"] > 0 && $row["Quantity"] == 1) {
+					echo "<tr><td>".$row["PName"]."</td><td>".$row["Description"]."</td><td>$".$row["PriceSold"]."</td><td>".$row["Quantity"]."</td><td><form action='addToCart.php' method='post'> <input type='hidden' name='PID' value='".$row["PID"]."'/><input type='submit' value=' + '/></form><form action='decreaseQuantityFromCart.php' method='post'><input type='hidden' name='PID' value='".$row["PID"]."'/><input type='hidden' name='CartID' value='".$row["CartID"]."'/><input style='border: gray;' type='submit' value=' - ' disabled='disable'/></form></td></td><td><form action='deleteFromCart.php' method='post'> <input type='hidden' name='PID' value='".$row["PID"]."'/><input type='hidden' name='CartID' value='".$row["CartID"]."'/><input type='submit' value=' x '/></form></td></tr>";
+				} else if($row["PQuantity"] == 0 && $row["Quantity"] > 1) {
+					echo "<tr><td>".$row["PName"]."</td><td>".$row["Description"]."</td><td>$".$row["PriceSold"]."</td><td>".$row["Quantity"]."</td><td><form action='addToCart.php' method='post'> <input type='hidden' name='PID' value='".$row["PID"]."'/><input style='border: gray;' type='submit' value=' + ' disabled='disable'/></form><form action='decreaseQuantityFromCart.php' method='post'><input type='hidden' name='PID' value='".$row["PID"]."'/><input type='hidden' name='CartID' value='".$row["CartID"]."'/><input type='submit' value=' - '/></form></td></td><td><form action='deleteFromCart.php' method='post'> <input type='hidden' name='PID' value='".$row["PID"]."'/><input type='hidden' name='CartID' value='".$row["CartID"]."'/><input type='submit' value=' x '/></form></td></tr>";
+				} else if($row["PQuantity"] == 0 && $row["Quantity"] == 1) {
+					echo "<tr><td>".$row["PName"]."</td><td>".$row["Description"]."</td><td>$".$row["PriceSold"]."</td><td>".$row["Quantity"]."</td><td><form action='addToCart.php' method='post'> <input type='hidden' name='PID' value='".$row["PID"]."'/><input style='border: gray;' type='submit' value=' + ' disabled='disable'/></form><form action='decreaseQuantityFromCart.php' method='post'><input type='hidden' name='PID' value='".$row["PID"]."'/><input type='hidden' name='CartID' value='".$row["CartID"]."'/><input style='border: gray;' type='submit' value=' - ' disabled='disable'/></form></td></td><td><form action='deleteFromCart.php' method='post'> <input type='hidden' name='PID' value='".$row["PID"]."'/><input type='hidden' name='CartID' value='".$row["CartID"]."'/><input type='submit' value=' x '/></form></td></tr>";
+				}
 			}
 			echo "</table>";
+			
+			echo "<div style='text-align: center;'>";
+			echo "<h2> Total Price: $".$totalPrice."</h2>";
+			echo "<form  action='checkoutStep1.php' method='post'><input class='menuBtn' type='submit' value='Checkout'/></form>";
+			echo "</div>";
 		} else {
 			echo "No Result Found";
 		}
