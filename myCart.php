@@ -44,18 +44,7 @@ input {
 	</div>
 	
 	<h3><u>My Cart</u></h3>
-	<table style="width:100%">
-	  <tr>
-		<th>Name</th>
-		<th>Description</th>
-		<th>Price Sold</th>
-		<th>Quantity</th>
-		<th>Update Quantity</th>
-		<th>Delete</th>
-
-		
-	  </tr>
-	  
+  
 	<?php
 		$servername = "localhost";
 		$username = "root";
@@ -73,6 +62,15 @@ input {
 		$result = $conn->query($sql);
 
 		if ($result->num_rows > 0) {
+			echo "<table style='width:100%'>
+			  <tr>
+				<th>Name</th>
+				<th>Description</th>
+				<th>Price Sold</th>
+				<th>Quantity</th>
+				<th>Update Quantity</th>
+				<th>Delete</th>
+			  </tr>";
 			$totalPrice = 0;
 			while($row = $result->fetch_assoc()) {
 				$totalPrice += ($row["PriceSold"] * $row['Quantity']);
@@ -90,10 +88,10 @@ input {
 			
 			echo "<div style='text-align: center;'>";
 			echo "<h2> Total Price: $".$totalPrice."</h2>";
-			echo "<form  action='checkoutStep1.php' method='post'><input class='menuBtn' type='submit' value='Checkout'/></form>";
+			echo "<form  action='checkoutStep1.php' method='post'><input class='menuBtn' type='submit' value='Proceed To Checkout'/></form>";
 			echo "</div>";
 		} else {
-			echo "No Result Found";
+			echo "<h3>No Cart Exists, Please choose Start Shopping From main menu and add products in Cart!</h3>";
 		}
 		$conn->close();
 	?>

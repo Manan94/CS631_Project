@@ -41,7 +41,7 @@ input {
 			<input class="menuBtn" type="submit" value="Show My Cart"/><br><br>
 		</form>
 		
-		<form  action="transaction.php" method="post">
+		<form  action="transactionHistory.php" method="post">
 			<input class="menuBtn" type="submit" value="Show My Transactions"/><br><br>
 		</form>
 		
