@@ -17,23 +17,19 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-$email = $_POST['email'];
-$sql = 'SELECT * FROM Customer where Email = "'.$email.'"';
+session_start();
+$ccno = $_POST["ccno"];
+$sql = 'DELETE FROM Stored_Card where CCNumber = "'.$ccno.'"';
 $result = $conn->query($sql);
-if (!$result) {
-    trigger_error('Invalid query: ' . $conn->error);
-}
-else {
-	if ($result->num_rows == 1) {
-		session_start();
-		$row = $result->fetch_assoc();
-		$_SESSION["CID"] = $row["CID"];
-		$_SESSION["CName"] = $row["FName"]." ".$row["LName"];
-		$conn->close();
-		header('Location: menu.php');
-	} else {
-		$conn->close();
-		header('Location: index.php');
-	}
-}
+
+if ($result === TRUE) {
+    //$sql2 = 'INSERT INTO Stored_Card (CCNumber, CID) VALUES ("'.$ccno.'", "'.$_SESSION['CID'].'")';
+    //$result2 = $conn->query($sql2);
+
+    header('Location: add_credit_card.php?success=2');
+
+}else {
+  $conn->close();
+  header('Location: add_credit_card.php?fail=1');
+  }
 ?>

@@ -68,75 +68,23 @@ $sql = "SELECT * from appears_in where CartID = '".$cartID."' and PID = '".$prod
 	return false;
 }
 
-function increaseProductCount($conn, $cartID, $productID) {
-	$sql = "update appears_in set Quantity = Quantity + 1 where CartID = '".$cartID."' and PID = '".$productID."';";
-	$result = $conn->query($sql);
-	if (!$result) {
-		trigger_error('Invalid query: ' . $conn->error);
-	}
-}
-
-function getProductPrice($conn, $PID) {
-	$status = $_SESSION["Status"];
-	$Price = "";
-	$sql = "";
-	if($status == "G" || $status == "P") {
-		$sql = "SELECT OfferPrice from offer_product where PID = ".$PID.";";
-		$result = $conn->query($sql);
-		if (!$result) {
-			trigger_error('Invalid query: ' . $conn->error);
-		} else {
-			if ($result->num_rows > 0) {
-				while($row = $result->fetch_assoc()) {
-					$Price = $row['OfferPrice'];
-					break;
-				}
-			} else {
-				$Price = "";
-			}
-		}
-	} 
-	if($Price == ""){
-		$sql = "SELECT PPrice from Product where PID = ".$PID.";";
-		$result = $conn->query($sql);
-		if (!$result) {
-			trigger_error('Invalid query: ' . $conn->error);
-		} else {
-			if ($result->num_rows > 0) {
-				while($row = $result->fetch_assoc()) {
-					$Price = $row['PPrice'];
-				}
-			} else {
-				return null;
-			}
-		}
-	}
-	return $Price;
-	
-}
-
-function insertProductInCart($conn, $cartID, $productID) {
-	$Price = getProductPrice($conn, $productID);
-	$sql = "INSERT INTO appears_in (CartID, PID, Quantity, PriceSold) VALUES (".$cartID.", ".$productID.", '1', ".$Price.");";
-	$result = $conn->query($sql);
-	if (!$result) {
-		trigger_error('Invalid query: ' . $conn->error);
-	}
-}
 /*********************************************/
 
 $cartID = getCartID($conn, $customerID, $productID);
-
 if($cartID == null) {
 	createNewCart($conn, $customerID);
 	$cartID = getCartID($conn, $customerID, $productID);
 }
 
 if(isProductAlreadyInTheCart($conn, $cartID, $productID)){
-	increaseProductCount($conn, $cartID, $productID);
+	// increase the count
 } else {
-	insertProductInCart($conn, $cartID, $productID);
+	//insert in appears in
 }
+
+echo $cartID;
+
+
+
 $conn->close();
-header('Location: ' . $_SERVER['HTTP_REFERER']);
 ?>
