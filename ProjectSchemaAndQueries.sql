@@ -235,3 +235,29 @@ INSERT INTO `offer_product` (`PID`, `OfferPrice`) VALUES ('6', '950');
 
 INSERT INTO `offer_product` (`PID`, `OfferPrice`) VALUES ('7', '1000');
 
+
+-- Queries for Statistics:
+-- 1
+ select A.PID, P.PName, SUM(A.Quantity) AS Q from appears_in A, product P 
+where P.PID = A.PID and A.CartID IN 
+	(SELECT CartID from cart where cart.TStatus is NOT NULL and cart.TDate BETWEEN CAST('2018-04-01' AS DATE) AND CAST('2018-05-02' AS DATE))
+GROUP BY A.PID 
+ORDER BY Q DESC;
+
+
+-- 3
+select CC.CID, CC.FName, CC.LName, SUM(A.Quantity * A.PriceSold) As Total 
+from appears_in A, cart C, customer CC 
+WHERE CC.CID = C.CID and C.CartID = A.CartID and A.CartID IN 
+	(select C1.CartID from cart C1, customer CC1 where C1.CID = CC1.CID and C1.TStatus is NOT NULL and
+		C1.TDate BETWEEN CAST('2018-04-01' AS DATE) AND CAST('2018-05-02' AS DATE) ) 
+GROUP BY C.CID 
+ORDER BY Total DESC;
+
+
+-- 5 
+SELECT P.PType, SUM(A.PriceSold * A.Quantity)/SUM(A.Quantity) As AveragePriceByType
+from appears_in A, product P, Cart C
+where A.PID = P.PID and C.CartID = A.CartID and C.TDate BETWEEN CAST('2018-04-01' AS DATE) AND CAST('2018-05-02' AS DATE) and P.PType NOT IN('A') 
+GROUP BY P.PType
+ORDER BY AveragePriceByType DESC;

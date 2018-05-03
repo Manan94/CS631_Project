@@ -81,7 +81,7 @@ input {
 				else if($row["TStatus"] == 'D')
 					$tStatus = "Delivered";
 				else if($row["TStatus"] == 'N')
-					$tStatus = "Cancelled";
+					$tStatus = "Not Delivered";
 				echo "<tr><td>".$row["CartID"]."</td><td>".$row["SAName"]."</td><td>$".$row["CCNumber"]."</td><td>".$tStatus."</td><td>".$row["TDate"]."</td><td><form action='viewCartDetail.php' method='post'> <input type='hidden' name='CartID' value='".$row["CartID"]."'/><input type='submit' value='Show Details'/></form></td></tr>";
 			}
 			echo "</table>";
